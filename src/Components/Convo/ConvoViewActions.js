@@ -90,14 +90,6 @@ const ConvoViewActions = {
       createdAt: Date.now()
     };
     const id = db.doAddText(rid, message1);
-    // Dispatcher.dispatch({
-    //   type: ConvoActionTypes.ADD_TEXT,
-    //   message: {
-    //     key:id, value: message1
-    //   },
-    //   rid,
-    // });
-
   },
 
   doGetConvos(uid) {
@@ -111,11 +103,6 @@ const ConvoViewActions = {
           let displayName = convoVal.displayName;
           let messagesobj = convoVal.convoMessages;
           let messages = []
-          // if (messagesobj) {
-          //   for (var messageKey in messagesobj) {
-          //     messages.push({key:messageKey, value:messagesobj[messageKey]})
-          //   }
-          // }
           let people = convoVal.people;
           Dispatcher.dispatch({
             type: ConvoActionTypes.ADD_CONVO,

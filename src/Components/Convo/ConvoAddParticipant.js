@@ -13,41 +13,54 @@ const dataSource2 = ['12345', '23456', '34567'];
 export default class ConvoAddParticipant extends React.Component {
   constructor(props) {
     super(props);
-
+    this.handleNewRequest = this.handleNewRequest.bind(this);
+    this.getUID = this.getUID.bind(this);
   }
 
   componentDidMount() {
     db.onceGetUsers().then((snapshot)  => {
       let value = snapshot.val();
       let namesArr = [];
+      let backward = [];
       for (var personKey in value) {
-        // namesArr.push(value[personKey].username);
-        namesArr.push(personKey);
+        namesArr.push(value[personKey].email);
+        backward.push({key: value[personKey].email, value: personKey});
+        // namesArr.push(personKey);
       }
       this.setState ({
         users: value,
-        names: namesArr
+        names: namesArr,
+        backward
       });
 
     });
   }
 
+  getUID(searchText) {
+    var found = this.state.backward.find(function(element) {
+      return element.key === searchText;
+    });
+    return found.value;
+  }
 
-  handleNewRequest = (searchText) => {
-    ConvoViewActions.doAddParticipant(searchText, this.props.rid);
-  };
 
+
+  handleNewRequest(searchText) {
+    const uid = this.getUID(searchText);
+    ConvoViewActions.doAddParticipant(uid, this.props.rid);
+  }
 
 
   render() {
     return (
       <div>
+
         {this.state && 
           <AutoComplete
             onNewRequest={this.handleNewRequest}
             filter={AutoComplete.caseInsensitiveFilter}
             dataSource={this.state.names}
-            hintText="text-value data"
+            hintText="add participant"
           />
         }
       </div>
