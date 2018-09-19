@@ -20,6 +20,11 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
+
+
+
 
 
 class ConvoItem extends Component {
@@ -28,6 +33,7 @@ class ConvoItem extends Component {
     this.onSubmitMessage = this.onSubmitMessage.bind(this);
     this.getUsers = this.getUsers.bind(this);
     this.getName = this.getName.bind(this);
+    this.onDeleteConvo = this.onDeleteConvo.bind(this);
     this.state = {
       users: []
     }
@@ -51,6 +57,10 @@ class ConvoItem extends Component {
 
   onAddParticipant(uid) {
     ConvoViewActions.doAddParticipant(this.props.convoId, uid);
+  }
+
+  onDeleteConvo() {
+    ConvoViewActions.doDeleteConvo(this.props.convoId);
   }
 
   getUsers() {
@@ -99,6 +109,14 @@ class ConvoItem extends Component {
             <Typography variant="title" color="inherit">
               {this.props.convoDisplayName}
             </Typography>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={this.props.button}
+              onClick={this.onDeleteConvo}
+            >
+              Delete
+            </Button>
           </Toolbar>
         </AppBar>
         <Paper>

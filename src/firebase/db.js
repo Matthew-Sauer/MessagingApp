@@ -59,7 +59,21 @@ export const doGetConvo = (cid) =>
 export const doAddText = (cid, message) => {
 	const mid = db.ref(`convos/${cid}/convoMessages`).push(message);
 	return mid;
-}
+};
+
+export const doRemoveRoomFromParticipant = (uid, rid) => {
+	var convos = db.ref(`users/${uid}/convos`).orderByKey();
+
+	convos.once('value', (snapshot) => {
+		snapshot.forEach((childSnapshot) => {
+			var key = childSnapshot.key;
+			var value = childSnapshot.val();
+			if(value === rid) {
+				db.ref(`users/${uid}/convos/${key}`).remove();
+			}
+		});
+	});
+};
 
 
 

@@ -13,10 +13,10 @@ const ConvoViewActions = {
     });
   },
 
-  deleteConvo(id) {
+  deleteConvo(rid) {
     Dispatcher.dispatch({
       type: ConvoActionTypes.DELETE_CONVO,
-      id,
+      rid,
     });
   },
 
@@ -120,6 +120,11 @@ const ConvoViewActions = {
 
   doAddParticipant(uid, rid) {
     db.doAddRoomToParticipant(uid,rid);
+  },
+
+  doDeleteConvo(rid) {
+    db.doRemoveRoomFromParticipant(auth.getCurrentUser().uid, rid);
+    ConvoViewActions.deleteConvo(rid);
   },
 
 };
